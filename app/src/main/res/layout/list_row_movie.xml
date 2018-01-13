@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_movie_poster"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/movie_poster_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_movie_ating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/black_50p_opacity_background"
+        android:drawableLeft="@drawable/ic_star_rate_white_18dp"
+        android:drawableStart="@drawable/ic_star_rate_white_18dp"
+        android:padding="@dimen/padding_8dp"
+        android:text="@string/default_rating"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/iv_movie_poster"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_movie_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/black_50p_opacity_background"
+        android:ellipsize="marquee"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/padding_8dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/iv_movie_poster"
+        app:layout_constraintStart_toStartOf="@+id/iv_movie_poster"
+        tools:text="Epic Movie title" />
+</android.support.constraint.ConstraintLayout>
