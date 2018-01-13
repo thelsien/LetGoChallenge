@@ -14,9 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.thelsien.challenge.letgochallenge.R;
+import com.thelsien.challenge.letgochallenge.models.MovieListResultModel;
 import com.thelsien.challenge.letgochallenge.models.TopRatedModel;
 
-public class MovieListFragment extends Fragment implements MovieListContract.View {
+public class MovieListFragment extends Fragment implements MovieListContract.View, MovieListAdapter.OnMovieClickListener {
 
     private static final String TAG = MovieListFragment.class.getSimpleName();
     private final static int VISIBLE_THRESHOLD = 2;
@@ -85,7 +86,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
         MovieListAdapter adapter = (MovieListAdapter) mListView.getAdapter();
         if (adapter == null) {
             showList();
-            adapter = new MovieListAdapter();
+            adapter = new MovieListAdapter(this);
             mListView.setAdapter(adapter);
         }
 
@@ -109,5 +110,10 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
         //TODO check for missing api key and no network errors, otherwise show unknown error text
 
         mErrorTextView.setText(R.string.movie_list_unknown_error);
+    }
+
+    @Override
+    public void onMovieClicked(MovieListResultModel movie) {
+        Log.d(TAG, "onMovieClicked: " + movie.title);
     }
 }

@@ -19,10 +19,15 @@ import java.util.List;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
     private List<MovieListResultModel> movies = new ArrayList<>();
+    private OnMovieClickListener mClickListener;
 
     public void addMovies(List<MovieListResultModel> movies) {
         this.movies.addAll(movies);
         notifyDataSetChanged();
+    }
+
+    public MovieListAdapter(OnMovieClickListener listener) {
+        this.mClickListener = listener;
     }
 
     @Override
@@ -47,6 +52,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
         holder.mRateView.setText(String.valueOf(model.vote_average));
         holder.mTitleView.setText(model.title);
+        holder.itemView.setOnClickListener(view -> mClickListener.onMovieClicked(model));
     }
 
     @Override
@@ -67,5 +73,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             mRateView = itemView.findViewById(R.id.tv_movie_ating);
             mPosterView = itemView.findViewById(R.id.iv_movie_poster);
         }
+    }
+
+    public interface OnMovieClickListener {
+        void onMovieClicked(MovieListResultModel movie);
     }
 }
