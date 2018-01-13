@@ -32,9 +32,10 @@ public class MovieListPresenter implements MovieListContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        topRatedModel -> mMovieListView.onTopRatedMoviesGet(topRatedModel.results),
+                        topRatedModel -> mMovieListView.onTopRatedMoviesLoaded(topRatedModel),
                         error -> {
                             Log.e(TAG, "getTopRatedMovies: error", error);
+                            mMovieListView.showError(error);
                         });
     }
 }

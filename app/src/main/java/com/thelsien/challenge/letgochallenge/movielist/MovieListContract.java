@@ -1,12 +1,11 @@
 package com.thelsien.challenge.letgochallenge.movielist;
 
-import com.thelsien.challenge.letgochallenge.models.MovieListResultModel;
-
-import java.util.List;
+import com.thelsien.challenge.letgochallenge.models.TopRatedModel;
 
 public interface MovieListContract {
     interface View {
-        void onTopRatedMoviesGet(List<MovieListResultModel> movies);
+        void onTopRatedMoviesLoaded(TopRatedModel topRatedModel);
+        void showError(Throwable error);
     }
 
     interface Presenter {
