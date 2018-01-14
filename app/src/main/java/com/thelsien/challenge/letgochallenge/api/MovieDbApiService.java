@@ -1,7 +1,7 @@
 package com.thelsien.challenge.letgochallenge.api;
 
-import com.thelsien.challenge.letgochallenge.models.MovieModel;
-import com.thelsien.challenge.letgochallenge.models.TopRatedModel;
+import com.thelsien.challenge.letgochallenge.models.MovieDetailModel;
+import com.thelsien.challenge.letgochallenge.models.MovieListModel;
 
 import java.util.Map;
 
@@ -17,8 +17,11 @@ public interface MovieDbApiService {
     String API_KEY = "MYAPIKEY";
 
     @GET("movie/top_rated")
-    Observable<TopRatedModel> getTopRatedMovies(@QueryMap Map<String, String> queryMap);
+    Observable<MovieListModel> getTopRatedMovies(@QueryMap Map<String, String> queryMap);
 
     @GET("movie/{movieId}")
-    Observable<MovieModel> getMovieDetail(@Path("movieId") int movieId, @Query("api_key") String apiKey);
+    Observable<MovieDetailModel> getMovieDetail(@Path("movieId") int movieId, @Query("api_key") String apiKey);
+
+    @GET("movie/{movieId}/similar")
+    Observable<MovieListModel> getSimilarMovies(@Path("movieId") int movieId, @Query("api_key") String apiKey, @Query("page") int page);
 }

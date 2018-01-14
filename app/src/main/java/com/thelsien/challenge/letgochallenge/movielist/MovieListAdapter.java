@@ -11,17 +11,17 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.thelsien.challenge.letgochallenge.R;
 import com.thelsien.challenge.letgochallenge.api.MovieDbApiService;
-import com.thelsien.challenge.letgochallenge.models.MovieListResultModel;
+import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
 
-    private List<MovieListResultModel> movies = new ArrayList<>();
+    private List<MovieRowModel> movies = new ArrayList<>();
     private OnMovieClickListener mClickListener;
 
-    public void addMovies(List<MovieListResultModel> movies) {
+    public void addMovies(List<MovieRowModel> movies) {
         this.movies.addAll(movies);
         notifyDataSetChanged();
     }
@@ -40,7 +40,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MovieListResultModel model = movies.get(position);
+        MovieRowModel model = movies.get(position);
 
         Glide.with(holder.mPosterView)
                 .load(MovieDbApiService.IMAGE_BASE_URL + model.poster_path)
@@ -76,6 +76,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     public interface OnMovieClickListener {
-        void onMovieClicked(MovieListResultModel movie);
+        void onMovieClicked(MovieRowModel movie);
     }
 }

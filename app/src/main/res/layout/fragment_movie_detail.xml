@@ -126,7 +126,7 @@
             android:layout_height="wrap_content" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_related_movies_list"
+            android:id="@+id/rv_similar_movies_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

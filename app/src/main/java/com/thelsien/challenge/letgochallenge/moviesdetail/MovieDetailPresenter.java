@@ -21,7 +21,18 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         movieModel -> mDetailView.onMovieDetailLoaded(movieModel),
-                        error -> mDetailView.onError(error)
+                        error -> mDetailView.onError(error) //TODO separate onError?
+                );
+    }
+
+    @Override
+    public void getSimilarMovies(int movieId, int page) {
+        RetrofitHelper.getMovieDbApiService().getSimilarMovies(movieId, MovieDbApiService.API_KEY, page)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        movieListModel -> mDetailView.onSimilarMoviesLoaded(movieListModel),
+                        error -> mDetailView.onError(error) //TODO separate onError?
                 );
     }
 }

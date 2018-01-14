@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.thelsien.challenge.letgochallenge.R;
-import com.thelsien.challenge.letgochallenge.models.MovieListResultModel;
-import com.thelsien.challenge.letgochallenge.models.TopRatedModel;
+import com.thelsien.challenge.letgochallenge.models.MovieListModel;
+import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
 import com.thelsien.challenge.letgochallenge.moviesdetail.MovieDetailActivity;
 
 public class MovieListFragment extends Fragment implements MovieListContract.View, MovieListAdapter.OnMovieClickListener {
@@ -24,7 +23,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     private static final String TAG = MovieListFragment.class.getSimpleName();
     private final static int VISIBLE_THRESHOLD = 2;
 
-    private TopRatedModel mTopRatedModel;
+    private MovieListModel mMovieListModel;
     private MovieListContract.Presenter mPresenter;
     private int mPage = 1; //TODO savedInstanceState?
 
@@ -72,8 +71,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
 
                 int totalItemCount = mLayoutManager.getItemCount();
                 int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-                if (!isLoading && mPage <= mTopRatedModel.total_pages && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
-                    Log.d(TAG, "onScrolled: called" + totalItemCount + " " + lastVisibleItem);
+                if (!isLoading && mPage <= mMovieListModel.total_pages && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
                     mPage++;
                     mPresenter.getTopRatedMovies(mPage);
                     isLoading = true;
@@ -83,8 +81,8 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     }
 
     @Override
-    public void onTopRatedMoviesLoaded(TopRatedModel topRatedModel) {
-        mTopRatedModel = topRatedModel;
+    public void onTopRatedMoviesLoaded(MovieListModel movieListModel) {
+        mMovieListModel = movieListModel;
         MovieListAdapter adapter = (MovieListAdapter) mListView.getAdapter();
         if (adapter == null) {
             showList();
@@ -92,7 +90,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
             mListView.setAdapter(adapter);
         }
 
-        adapter.addMovies(topRatedModel.results);
+        adapter.addMovies(movieListModel.results);
 
         isLoading = false;
     }
@@ -115,7 +113,7 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
     }
 
     @Override
-    public void onMovieClicked(MovieListResultModel movie) {
+    public void onMovieClicked(MovieRowModel movie) {
         Intent detailIntent = new Intent(getContext(), MovieDetailActivity.class);
         detailIntent.putExtra("movieId", movie.id);
 

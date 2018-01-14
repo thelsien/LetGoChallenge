@@ -1,14 +1,17 @@
 package com.thelsien.challenge.letgochallenge.moviesdetail;
 
-import com.thelsien.challenge.letgochallenge.models.MovieModel;
+import com.thelsien.challenge.letgochallenge.models.MovieDetailModel;
+import com.thelsien.challenge.letgochallenge.models.MovieListModel;
 
 public interface MovieDetailContract {
     interface View {
-        void onMovieDetailLoaded(MovieModel movie);
+        void onMovieDetailLoaded(MovieDetailModel movie);
+        void onSimilarMoviesLoaded(MovieListModel movieListModel);
         void onError(Throwable error);
     }
 
     interface Presenter {
         void getMovieDetail(int movieId);
+        void getSimilarMovies(int movieId, int page);
     }
 }

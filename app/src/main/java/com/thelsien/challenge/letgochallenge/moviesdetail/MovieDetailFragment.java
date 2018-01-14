@@ -1,10 +1,12 @@
 package com.thelsien.challenge.letgochallenge.moviesdetail;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,18 +21,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.thelsien.challenge.letgochallenge.R;
 import com.thelsien.challenge.letgochallenge.api.MovieDbApiService;
-import com.thelsien.challenge.letgochallenge.models.MovieListResultModel;
-import com.thelsien.challenge.letgochallenge.models.MovieModel;
+import com.thelsien.challenge.letgochallenge.models.MovieDetailModel;
+import com.thelsien.challenge.letgochallenge.models.MovieListModel;
+import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
 
 import java.util.Locale;
 
-public class MovieDetailFragment extends Fragment implements MovieDetailContract.View {
+public class MovieDetailFragment extends Fragment implements MovieDetailContract.View, SimilarMoviesAdapter.OnSimilarMovieClickedListener {
 
     private static final String TAG = MovieDetailFragment.class.getSimpleName();
+    private static final int SIMILAR_MOVIES_VISIBLE_TRESHOLD = 2;
 
     private MovieDetailContract.Presenter mPresenter;
-    private MovieModel mMovieWithDetails;
-    private MovieListResultModel mMovieFromList;
+    private MovieDetailModel mMovieWithDetails;
+//    private MovieRowModel mMovieFromList;
 
     private int mMovieId;
 
@@ -40,10 +44,15 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
     private TextView mVoteAverageView;
     private TextView mRuntimeView;
     private TextView mOverviewView;
-    private RecyclerView mRelatedMoviesListView;
+    private RecyclerView mSimilarMoviesListView;
     private ProgressBar mDetailsLoadingBar;
     private TextView mDetailsErrorView;
     private LinearLayout mDetailsWrapper;
+
+    private LinearLayoutManager mHorizontalLayoutManager;
+    private int mPage = 1;
+    private MovieListModel mMovieListModel;
+    private boolean isLoading = false;
 
     public MovieDetailFragment() {
         // Required empty public constructor
@@ -71,10 +80,33 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
 
         getMovieId();
         getViews(view);
-        //TODO setupRelatedMoviesListView(), setupPaginationForRelatedMovies()
+        setupRelatedMoviesListView();
+        setupPaginationForRelatedMovies();
 
         mPresenter = new MovieDetailPresenter(this);
         mPresenter.getMovieDetail(mMovieId);
+    }
+
+    private void setupPaginationForRelatedMovies() {
+        mSimilarMoviesListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int totalItemCount = mHorizontalLayoutManager.getItemCount();
+                int lastVisibleItem = mHorizontalLayoutManager.findLastVisibleItemPosition();
+                if (!isLoading && mPage <= mMovieListModel.total_pages && totalItemCount <= (lastVisibleItem + SIMILAR_MOVIES_VISIBLE_TRESHOLD)) {
+                    mPage++;
+                    mPresenter.getSimilarMovies(mMovieId, mPage);
+                    isLoading = true;
+                }
+            }
+        });
+    }
+
+    private void setupRelatedMoviesListView() {
+        mHorizontalLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        mSimilarMoviesListView.setLayoutManager(mHorizontalLayoutManager);
     }
 
     private void getMovieId() {
@@ -89,17 +121,19 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
         mRuntimeView = view.findViewById(R.id.tv_runtime);
         mPosterView = view.findViewById(R.id.iv_movie_poster);
         mOverviewView = view.findViewById(R.id.tv_overview);
-        mRelatedMoviesListView = view.findViewById(R.id.rv_related_movies_list);
+        mSimilarMoviesListView = view.findViewById(R.id.rv_similar_movies_list);
         mDetailsLoadingBar = view.findViewById(R.id.pb_details_loading);
         mDetailsErrorView = view.findViewById(R.id.tv_details_error);
         mDetailsWrapper = view.findViewById(R.id.ll_details_wrapper);
     }
 
     @Override
-    public void onMovieDetailLoaded(MovieModel movie) {
+    public void onMovieDetailLoaded(MovieDetailModel movie) {
         mDetailsLoadingBar.setVisibility(View.GONE);
         mDetailsErrorView.setVisibility(View.GONE);
         mDetailsWrapper.setVisibility(View.VISIBLE);
+
+        mMovieWithDetails = movie;
 
         Glide.with(this)
                 .load(MovieDbApiService.IMAGE_BASE_URL + movie.poster_path)
@@ -118,10 +152,38 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
         } else {
             mRuntimeView.setVisibility(View.GONE);
         }
+
+        //start loading similar movies
+        mPresenter.getSimilarMovies(mMovieId, mPage);
+    }
+
+    @Override
+    public void onSimilarMoviesLoaded(MovieListModel movieListModel) {
+        mMovieListModel = movieListModel;
+
+        SimilarMoviesAdapter adapter = (SimilarMoviesAdapter) mSimilarMoviesListView.getAdapter();
+        if (adapter == null) {
+            adapter = new SimilarMoviesAdapter(this);
+            adapter.addCurrentMovie(mMovieWithDetails);
+            mSimilarMoviesListView.setAdapter(adapter);
+        }
+
+        adapter.addMovies(mMovieListModel.results);
+//        mSimilarMoviesListView.setAdapter(adapter);
+
+        isLoading = false;
     }
 
     @Override
     public void onError(Throwable error) {
         Log.e(TAG, "onError: error", error);
+    }
+
+    @Override
+    public void onSimilarMovieClicked(MovieRowModel movie) {
+        Intent detailIntent = new Intent(getContext(), MovieDetailActivity.class);
+        detailIntent.putExtra("movieId", movie.id);
+
+        startActivity(detailIntent);
     }
 }

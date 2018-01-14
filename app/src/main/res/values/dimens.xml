@@ -9,4 +9,5 @@
     <dimen name="text_20sp">20sp</dimen>
 
     <dimen name="progress_bar_size">50dp</dimen>
+    <dimen name="similar_movie_poster_width">100dp</dimen>
 </resources>
