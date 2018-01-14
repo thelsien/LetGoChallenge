@@ -3,4 +3,7 @@
     <string name="movie_poster_description">Movie poster.</string>
     <string name="default_rating">No rating</string>
     <string name="movie_list_unknown_error">Some error happened, please try again later.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

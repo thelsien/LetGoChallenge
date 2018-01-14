@@ -1,5 +1,6 @@
 package com.thelsien.challenge.letgochallenge.movielist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.thelsien.challenge.letgochallenge.R;
 import com.thelsien.challenge.letgochallenge.models.MovieListResultModel;
 import com.thelsien.challenge.letgochallenge.models.TopRatedModel;
+import com.thelsien.challenge.letgochallenge.moviesdetail.MovieDetailActivity;
 
 public class MovieListFragment extends Fragment implements MovieListContract.View, MovieListAdapter.OnMovieClickListener {
 
@@ -114,6 +116,9 @@ public class MovieListFragment extends Fragment implements MovieListContract.Vie
 
     @Override
     public void onMovieClicked(MovieListResultModel movie) {
-        Log.d(TAG, "onMovieClicked: " + movie.title);
+        Intent detailIntent = new Intent(getContext(), MovieDetailActivity.class);
+        detailIntent.putExtra("movieId", movie.id);
+
+        startActivity(detailIntent);
     }
 }
