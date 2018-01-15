@@ -11,4 +11,5 @@
     <string name="label_vote_avg">Vote average:</string>
     <string name="label_runtime">Runtime:</string>
     <string name="runtime_minutes">%d mins</string>
+    <string name="transition_poster_name">poster_transition_name</string>
 </resources>

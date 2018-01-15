@@ -15,11 +15,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detial);
 
+        supportPostponeEnterTransition();
+
         Intent intent = getIntent();
         MovieDetailFragment detailFragment = MovieDetailFragment.createNewInstance(intent.getIntExtra("movieId", -1));
 
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fl_fragment_container, detailFragment, DETAIL_FRAGMENT_TAG)
+                .replace(R.id.fl_fragment_container, detailFragment, DETAIL_FRAGMENT_TAG)
                 .commit();
     }
 }

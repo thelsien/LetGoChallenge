@@ -52,7 +52,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
         holder.mRateView.setText(String.valueOf(model.vote_average));
         holder.mTitleView.setText(model.title);
-        holder.itemView.setOnClickListener(view -> mClickListener.onMovieClicked(model));
+        holder.itemView.setOnClickListener(view -> mClickListener.onMovieClicked(model, holder.mPosterView));
     }
 
     @Override
@@ -76,6 +76,6 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     public interface OnMovieClickListener {
-        void onMovieClicked(MovieRowModel movie);
+        void onMovieClicked(MovieRowModel movie, View sharedElement);
     }
 }

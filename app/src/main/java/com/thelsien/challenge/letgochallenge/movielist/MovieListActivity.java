@@ -17,7 +17,7 @@ public class MovieListActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .add(R.id.fl_fragment_container, new MovieListFragment(), MOVIE_LIST_FRAGMENT_TAG)
+                .replace(R.id.fl_fragment_container, new MovieListFragment(), MOVIE_LIST_FRAGMENT_TAG)
                 .commit();
     }
 }

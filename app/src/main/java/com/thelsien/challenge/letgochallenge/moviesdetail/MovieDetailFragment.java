@@ -2,6 +2,7 @@ package com.thelsien.challenge.letgochallenge.moviesdetail;
 
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,15 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.thelsien.challenge.letgochallenge.R;
-import com.thelsien.challenge.letgochallenge.api.MovieDbApiService;
 import com.thelsien.challenge.letgochallenge.models.MovieDetailModel;
 import com.thelsien.challenge.letgochallenge.models.MovieListModel;
 import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
@@ -71,7 +70,21 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+
+        mPosterView = view.findViewById(R.id.iv_movie_poster);
+        mPosterView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                mPosterView.getViewTreeObserver().removeOnPreDrawListener(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getActivity().supportStartPostponedEnterTransition();
+                }
+                return true;
+            }
+        });
+
+        return view;
     }
 
     @Override
@@ -135,12 +148,12 @@ public class MovieDetailFragment extends Fragment implements MovieDetailContract
 
         mMovieWithDetails = movie;
 
-        Glide.with(this)
-                .load(MovieDbApiService.IMAGE_BASE_URL + movie.poster_path)
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.default_poster)
-                        .error(R.drawable.default_poster))
-                .into(mPosterView);
+//        Glide.with(this)
+//                .load(MovieDbApiService.IMAGE_BASE_URL + movie.poster_path)
+//                .apply(new RequestOptions()
+//                        .placeholder(R.drawable.default_poster)
+//                        .error(R.drawable.default_poster))
+//                .into(mPosterView);
 
         mOriginalTitleView.setText(movie.original_title);
         mOriginalLanguageView.setText(movie.original_language);
