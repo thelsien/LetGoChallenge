@@ -1,5 +1,6 @@
 package com.thelsien.challenge.letgochallenge.moviesdetail;
 
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +40,10 @@ class SimilarMoviesAdapter extends RecyclerView.Adapter<SimilarMoviesAdapter.Vie
 
 
     public void addMovies(List<MovieRowModel> movies) {
+        int startPos = mMovies.size();
         mMovies.addAll(movies);
-        notifyDataSetChanged();
+
+        notifyItemRangeChanged(startPos, mMovies.size() - startPos);
     }
 
     @Override
@@ -61,7 +64,9 @@ class SimilarMoviesAdapter extends RecyclerView.Adapter<SimilarMoviesAdapter.Vie
                         .placeholder(R.drawable.default_poster))
                 .into(holder.posterView);
 
-        holder.posterView.setOnClickListener(view -> mListener.onSimilarMovieClicked(model));
+        ViewCompat.setTransitionName(holder.posterView, "similar_list_" + model.id);
+
+        holder.posterView.setOnClickListener(view -> mListener.onSimilarMovieClicked(model, holder.posterView));
     }
 
     @Override
@@ -81,6 +86,6 @@ class SimilarMoviesAdapter extends RecyclerView.Adapter<SimilarMoviesAdapter.Vie
     }
 
     public interface OnSimilarMovieClickedListener {
-        void onSimilarMovieClicked(MovieRowModel movie);
+        void onSimilarMovieClicked(MovieRowModel movie, View sharedView);
     }
 }
