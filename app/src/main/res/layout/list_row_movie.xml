@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:layout_height="320dp">
+    android:layout_height="@dimen/movie_list_poster_height">
 
     <ImageView
         android:id="@+id/iv_movie_poster"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="@dimen/movie_list_poster_height"
         android:adjustViewBounds="true"
         android:contentDescription="@string/movie_poster_description"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"

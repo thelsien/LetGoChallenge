@@ -12,4 +12,7 @@
     <dimen name="similar_movie_poster_width">100dp</dimen>
     <dimen name="similar_movie_poster_height">150dp</dimen>
     <dimen name="similar_movies_progress_bar_size">25dp</dimen>
+    <dimen name="detail_poster_height">350dp</dimen>
+    <dimen name="movie_list_poster_height">320dp</dimen>
+    <dimen name="movie_list_poster_height">320dp</dimen>
 </resources>

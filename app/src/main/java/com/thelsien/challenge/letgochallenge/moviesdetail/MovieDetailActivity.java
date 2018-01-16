@@ -32,6 +32,14 @@ public class MovieDetailActivity extends BaseActivty implements MovieDetailContr
     private static final int SIMILAR_MOVIES_VISIBLE_TRESHOLD = 2;
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 
+    private final SimpleTarget posterTarget = new SimpleTarget<Drawable>() {
+        @Override
+        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+            mPosterView.setImageDrawable(resource);
+            supportStartPostponedEnterTransition();
+        }
+    };
+
     private MovieDetailContract.Presenter mPresenter;
     private MovieDetailModel mMovieWithDetails;
     private MovieRowModel mMovieFromList;
@@ -56,13 +64,6 @@ public class MovieDetailActivity extends BaseActivty implements MovieDetailContr
     private int mPage = 1;
     private boolean isLoading = false;
 
-    private SimpleTarget posterTarget = new SimpleTarget<Drawable>() {
-        @Override
-        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-            mPosterView.setImageDrawable(resource);
-            supportStartPostponedEnterTransition();
-        }
-    };
     private ProgressBar mSimilarMoviesLoading;
 
     @Override
