@@ -4,8 +4,6 @@
     <string name="default_rating">No rating</string>
     <string name="movie_list_unknown_error">Some error happened, please try again later.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="label_original_title">Original title:</string>
     <string name="label_original_language">Original language:</string>
     <string name="label_vote_avg">Vote average:</string>
@@ -13,4 +11,6 @@
     <string name="runtime_minutes">%d mins</string>
     <string name="detail_overview_label">Overview</string>
     <string name="detail_similar_movies_label">Similar Movies</string>
+    <string name="movie_list_api_key_error">Error - you forgot to set your api key. ;3</string>
+    <string name="detail_error_unkown">Some error happened. Try again later.</string>
 </resources>

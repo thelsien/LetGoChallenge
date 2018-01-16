@@ -116,6 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
                     android:visibility="gone" />
             </RelativeLayout>
 
@@ -150,6 +151,13 @@
                 android:layout_width="@dimen/similar_movies_progress_bar_size"
                 android:layout_height="@dimen/similar_movies_progress_bar_size"
                 android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/tv_similar_movies_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal" />
         </RelativeLayout>
 
     </LinearLayout>

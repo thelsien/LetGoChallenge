@@ -47,6 +47,7 @@ public class MovieDetailActivity extends BaseActivty implements MovieDetailContr
     private TextView mRuntimeView;
     private TextView mOverviewView;
     private RecyclerView mSimilarMoviesListView;
+    private TextView mSimilarMoviesError;
     private ProgressBar mDetailsLoadingBar;
     private TextView mDetailsErrorView;
     private LinearLayout mDetailsWrapper;
@@ -121,6 +122,7 @@ public class MovieDetailActivity extends BaseActivty implements MovieDetailContr
         mOverviewView = findViewById(R.id.tv_overview);
         mSimilarMoviesListView = findViewById(R.id.rv_similar_movies_list);
         mSimilarMoviesLoading = findViewById(R.id.pb_similar_movies_loading);
+        mSimilarMoviesError = findViewById(R.id.tv_similar_movies_error);
         mDetailsLoadingBar = findViewById(R.id.pb_details_loading);
         mDetailsErrorView = findViewById(R.id.tv_details_error);
         mDetailsWrapper = findViewById(R.id.ll_details_wrapper);
@@ -150,6 +152,21 @@ public class MovieDetailActivity extends BaseActivty implements MovieDetailContr
     }
 
     @Override
+    public void onDetailError(Throwable error) {
+        Log.e(TAG, "onError: error", error);
+
+        mDetailsWrapper.setVisibility(View.GONE);
+        mDetailsLoadingBar.setVisibility(View.GONE);
+        mDetailsErrorView.setVisibility(View.VISIBLE);
+
+        mDetailsErrorView.setText(R.string.detail_error_unkown);
+        mOverviewView.setText(R.string.detail_error_unkown);
+
+        //still trying to load similar movies, so it can be filled with the only movie we have.
+        mPresenter.getSimilarMovies(mMovieFromList.id, mPage);
+    }
+
+    @Override
     public void onSimilarMoviesLoaded(MovieListModel movieListModel) {
         mMovieListModel = movieListModel;
 
@@ -165,15 +182,13 @@ public class MovieDetailActivity extends BaseActivty implements MovieDetailContr
     }
 
     @Override
-    public void onDetailError(Throwable error) {
-        Log.e(TAG, "onError: error", error);
-    }
-
-    @Override
     public void onSimilarMoviesError(Throwable error) {
         Log.e(TAG, "onSimilarMoviesError: error similar movies loading", error);
-        getAdapterForSimilarMovies();
-        showSimilarMoviesList();
+        mSimilarMoviesListView.setVisibility(View.GONE);
+        mSimilarMoviesLoading.setVisibility(View.GONE);
+        mSimilarMoviesError.setVisibility(View.VISIBLE);
+
+        mSimilarMoviesError.setText(R.string.detail_error_unkown);
     }
 
     private SimilarMoviesAdapter getAdapterForSimilarMovies() {

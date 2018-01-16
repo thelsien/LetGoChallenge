@@ -18,14 +18,15 @@ import com.thelsien.challenge.letgochallenge.models.MovieListModel;
 import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
 import com.thelsien.challenge.letgochallenge.moviesdetail.MovieDetailActivity;
 
+import retrofit2.HttpException;
+
 public class MovieListActivity extends BaseActivty implements MovieListContract.View, MovieListAdapter.OnMovieClickListener {
 
-    private final String MOVIE_LIST_FRAGMENT_TAG = "movie_list_fragment";
-    private final static int VISIBLE_THRESHOLD = 4;
+    private final static int VISIBLE_MOVIE_THRESHOLD = 4;
 
     private MovieListModel mMovieListModel;
     private MovieListContract.Presenter mPresenter;
-    private int mPage = 1; //TODO savedInstanceState?
+    private int mPage = 1;
 
     private TextView mErrorTextView;
     private ProgressBar mLoadingBar;
@@ -65,7 +66,7 @@ public class MovieListActivity extends BaseActivty implements MovieListContract.
 
                 int totalItemCount = mLayoutManager.getItemCount();
                 int lastVisibleItem = mLayoutManager.findLastVisibleItemPosition();
-                if (!isLoading && mPage <= mMovieListModel.total_pages && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
+                if (!isLoading && mPage <= mMovieListModel.total_pages && totalItemCount <= (lastVisibleItem + VISIBLE_MOVIE_THRESHOLD)) {
                     mPage++;
                     mPresenter.getTopRatedMovies(mPage);
                     isLoading = true;
@@ -101,16 +102,17 @@ public class MovieListActivity extends BaseActivty implements MovieListContract.
         mListView.setVisibility(View.GONE);
         mErrorTextView.setVisibility(View.VISIBLE);
 
-        //TODO check for missing api key and no network errors, otherwise show unknown error text
-
-        mErrorTextView.setText(R.string.movie_list_unknown_error);
+        if (error instanceof HttpException && ((HttpException) error).code() == 401) {
+            mErrorTextView.setText(R.string.movie_list_api_key_error);
+        } else {
+            mErrorTextView.setText(R.string.movie_list_unknown_error);
+        }
     }
 
     @Override
     public void onMovieClicked(MovieRowModel movie, View sharedElement) {
         Intent detailIntent = new Intent(this, MovieDetailActivity.class);
         detailIntent.putExtra("movie", movie);
-//        detailIntent.putExtra("poster_path", movie.poster_path);
         detailIntent.putExtra("poster_transition_name", ViewCompat.getTransitionName(sharedElement));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

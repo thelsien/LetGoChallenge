@@ -32,7 +32,9 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         movieListModel -> mDetailView.onSimilarMoviesLoaded(movieListModel),
-                        error -> mDetailView.onSimilarMoviesError(error)
+                        error -> {
+                            mDetailView.onSimilarMoviesError(error);
+                        }
                 );
     }
 }
