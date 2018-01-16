@@ -62,6 +62,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
             supportStartPostponedEnterTransition();
         }
     };
+    private ProgressBar mSimilarMoviesLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
         mPosterView = findViewById(R.id.iv_movie_poster);
         mOverviewView = findViewById(R.id.tv_overview);
         mSimilarMoviesListView = findViewById(R.id.rv_similar_movies_list);
+        mSimilarMoviesLoading = findViewById(R.id.pb_similar_movies_loading);
         mDetailsLoadingBar = findViewById(R.id.pb_details_loading);
         mDetailsErrorView = findViewById(R.id.tv_details_error);
         mDetailsWrapper = findViewById(R.id.ll_details_wrapper);
@@ -151,6 +153,30 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
     public void onSimilarMoviesLoaded(MovieListModel movieListModel) {
         mMovieListModel = movieListModel;
 
+        getAdapterForSimilarMovies().addMovies(mMovieListModel.results);
+        showSimilarMoviesList();
+
+        isLoading = false;
+    }
+
+    private void showSimilarMoviesList() {
+        mSimilarMoviesListView.setVisibility(View.VISIBLE);
+        mSimilarMoviesLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDetailError(Throwable error) {
+        Log.e(TAG, "onError: error", error);
+    }
+
+    @Override
+    public void onSimilarMoviesError(Throwable error) {
+        Log.e(TAG, "onSimilarMoviesError: error similar movies loading", error);
+        getAdapterForSimilarMovies();
+        showSimilarMoviesList();
+    }
+
+    private SimilarMoviesAdapter getAdapterForSimilarMovies() {
         SimilarMoviesAdapter adapter = (SimilarMoviesAdapter) mSimilarMoviesListView.getAdapter();
         if (adapter == null) {
             adapter = new SimilarMoviesAdapter(this);
@@ -158,15 +184,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
             mSimilarMoviesListView.setAdapter(adapter);
         }
 
-        adapter.addMovies(mMovieListModel.results);
-//        mSimilarMoviesListView.setAdapter(adapter);
-
-        isLoading = false;
-    }
-
-    @Override
-    public void onError(Throwable error) {
-        Log.e(TAG, "onError: error", error);
+        return adapter;
     }
 
     @Override

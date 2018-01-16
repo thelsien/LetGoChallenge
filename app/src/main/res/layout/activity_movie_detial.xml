@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_8dp"
-    tools:context="com.thelsien.challenge.letgochallenge.moviesdetail.MovieDetailFragment">
+    android:padding="@dimen/padding_8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +22,7 @@
                 android:paddingEnd="@dimen/padding_4dp"
                 android:paddingLeft="0dp"
                 android:paddingRight="@dimen/padding_4dp"
-                android:paddingStart="0dp"
-                android:transitionName="@string/transition_poster_name" />
+                android:paddingStart="0dp" />
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -122,14 +120,35 @@
         </LinearLayout>
 
         <TextView
+            style="@style/MovieDetailSectionTitle"
+            android:text="@string/detail_overview_label" />
+
+        <TextView
             android:id="@+id/tv_overview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_8dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_similar_movies_list"
+        <TextView
+            style="@style/MovieDetailSectionTitle"
+            android:text="@string/detail_similar_movies_label" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="@dimen/similar_movie_poster_height">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_similar_movies_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/pb_similar_movies_loading"
+                android:layout_width="@dimen/similar_movies_progress_bar_size"
+                android:layout_height="@dimen/similar_movies_progress_bar_size"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
 
     </LinearLayout>
 

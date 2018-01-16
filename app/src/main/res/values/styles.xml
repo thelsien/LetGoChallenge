@@ -18,7 +18,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:padding">@dimen/padding_4dp</item>
         <item name="android:gravity">end</item>
-        <item name="android:textSize">@dimen/text_12sp</item>
+        <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
     <style name="MovieDetailTextBase" parent="AppTheme">
@@ -26,14 +26,21 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">start</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">@dimen/text_12sp</item>
+        <item name="android:textSize">@dimen/text_14sp</item>
         <item name="android:paddingTop">@dimen/padding_4dp</item>
         <item name="android:paddingBottom">@dimen/padding_4dp</item>
         <item name="android:paddingLeft">@dimen/padding_4dp</item>
         <item name="android:paddingRight">0dp</item>
     </style>
 
-    <style name="MovieDetailText" parent="MovieDetailTextBase">
+    <style name="MovieDetailText" parent="MovieDetailTextBase" />
+
+    <style name="MovieDetailSectionTitle" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_20sp</item>
+        <item name="android:paddingTop">@dimen/padding_4dp</item>
+        <item name="android:paddingBottom">@dimen/padding_4dp</item>
     </style>
 
 </resources>

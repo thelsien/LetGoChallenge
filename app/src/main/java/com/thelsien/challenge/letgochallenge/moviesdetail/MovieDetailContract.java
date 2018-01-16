@@ -7,7 +7,8 @@ public interface MovieDetailContract {
     interface View {
         void onMovieDetailLoaded(MovieDetailModel movie);
         void onSimilarMoviesLoaded(MovieListModel movieListModel);
-        void onError(Throwable error);
+        void onDetailError(Throwable error);
+        void onSimilarMoviesError(Throwable error);
     }
 
     interface Presenter {

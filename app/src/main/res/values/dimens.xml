@@ -11,4 +11,5 @@
     <dimen name="progress_bar_size">50dp</dimen>
     <dimen name="similar_movie_poster_width">100dp</dimen>
     <dimen name="similar_movie_poster_height">150dp</dimen>
+    <dimen name="similar_movies_progress_bar_size">25dp</dimen>
 </resources>

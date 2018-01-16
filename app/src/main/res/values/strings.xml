@@ -11,5 +11,6 @@
     <string name="label_vote_avg">Vote average:</string>
     <string name="label_runtime">Runtime:</string>
     <string name="runtime_minutes">%d mins</string>
-    <string name="transition_poster_name">poster_transition_name</string>
+    <string name="detail_overview_label">Overview</string>
+    <string name="detail_similar_movies_label">Similar Movies</string>
 </resources>
