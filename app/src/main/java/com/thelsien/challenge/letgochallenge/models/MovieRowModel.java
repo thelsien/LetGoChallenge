@@ -1,6 +1,8 @@
 package com.thelsien.challenge.letgochallenge.models;
 
-public class MovieRowModel {
+import java.io.Serializable;
+
+public class MovieRowModel implements Serializable {
     public int id;
     public String poster_path;
     public String title;

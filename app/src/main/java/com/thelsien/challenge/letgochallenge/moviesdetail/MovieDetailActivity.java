@@ -18,16 +18,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.thelsien.challenge.letgochallenge.R;
-import com.thelsien.challenge.letgochallenge.api.MovieDbApiService;
 import com.thelsien.challenge.letgochallenge.models.MovieDetailModel;
 import com.thelsien.challenge.letgochallenge.models.MovieListModel;
 import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
+import com.thelsien.challenge.letgochallenge.util.GlideHelper;
 
 import java.util.Locale;
 
@@ -37,10 +34,11 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     private MovieDetailContract.Presenter mPresenter;
     private MovieDetailModel mMovieWithDetails;
-//    private MovieRowModel mMovieFromList;
+    private MovieRowModel mMovieFromList;
+    private MovieListModel mMovieListModel;
 
-    private int mMovieId;
-    private String mPosterPath;
+//    private int mMovieId;
+//    private String mPosterPath;
 
     private ImageView mPosterView;
     private TextView mOriginalTitleView;
@@ -55,8 +53,15 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
     private LinearLayoutManager mHorizontalLayoutManager;
     private int mPage = 1;
-    private MovieListModel mMovieListModel;
     private boolean isLoading = false;
+
+    private SimpleTarget posterTarget = new SimpleTarget<Drawable>() {
+        @Override
+        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+            mPosterView.setImageDrawable(resource);
+            supportStartPostponedEnterTransition();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,37 +70,23 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
 
         supportPostponeEnterTransition();
 
+        mMovieFromList = (MovieRowModel) getIntent().getSerializableExtra("movie");
+        mPresenter = new MovieDetailPresenter(this);
+
+        getSupportActionBar().setTitle(mMovieFromList.title);
+
         getViews();
+        setupRelatedMoviesListView();
+        setupPaginationForRelatedMovies();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String imageTransitionName = getIntent().getStringExtra("poster_transition_name");
             ViewCompat.setTransitionName(mPosterView, imageTransitionName);
         }
 
-        mMovieId = getIntent().getIntExtra("movieId", -1);
-        mPosterPath = getIntent().getStringExtra("poster_path");
+        GlideHelper.getGlideRequest(this, mMovieFromList.poster_path).into(posterTarget);
 
-        Glide.with(this)
-                .load(MovieDbApiService.IMAGE_BASE_URL + mPosterPath)
-                .apply(new RequestOptions()
-                        .dontTransform()
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .placeholder(R.drawable.default_poster)
-                        .error(R.drawable.default_poster))
-                .into(new SimpleTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        mPosterView.setImageDrawable(resource);
-                        supportStartPostponedEnterTransition();
-                    }
-                });
-
-        setupRelatedMoviesListView();
-        setupPaginationForRelatedMovies();
-
-        mPresenter = new MovieDetailPresenter(this);
-        mPresenter.getMovieDetail(mMovieId);
+        mPresenter.getMovieDetail(mMovieFromList.id);
     }
 
     private void setupPaginationForRelatedMovies() {
@@ -108,7 +99,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
                 int lastVisibleItem = mHorizontalLayoutManager.findLastVisibleItemPosition();
                 if (!isLoading && mPage <= mMovieListModel.total_pages && totalItemCount <= (lastVisibleItem + SIMILAR_MOVIES_VISIBLE_TRESHOLD)) {
                     mPage++;
-                    mPresenter.getSimilarMovies(mMovieId, mPage);
+                    mPresenter.getSimilarMovies(mMovieFromList.id, mPage);
                     isLoading = true;
                 }
             }
@@ -153,7 +144,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
         }
 
         //start loading similar movies
-        mPresenter.getSimilarMovies(mMovieId, mPage);
+        mPresenter.getSimilarMovies(mMovieFromList.id, mPage);
     }
 
     @Override
@@ -181,8 +172,7 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
     @Override
     public void onSimilarMovieClicked(MovieRowModel movie, View sharedView) {
         Intent detailIntent = new Intent(this, MovieDetailActivity.class);
-        detailIntent.putExtra("movieId", movie.id);
-        detailIntent.putExtra("poster_path", movie.poster_path);
+        detailIntent.putExtra("movie", movie);
         detailIntent.putExtra("poster_transition_name", ViewCompat.getTransitionName(sharedView));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

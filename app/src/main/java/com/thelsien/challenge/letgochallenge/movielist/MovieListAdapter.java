@@ -8,12 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.thelsien.challenge.letgochallenge.R;
-import com.thelsien.challenge.letgochallenge.api.MovieDbApiService;
 import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
+import com.thelsien.challenge.letgochallenge.util.GlideHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,15 +43,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         MovieRowModel model = movies.get(position);
 
-        Glide.with(holder.mPosterView)
-                .load(MovieDbApiService.IMAGE_BASE_URL + model.poster_path)
-                .apply(new RequestOptions()
-                        .dontTransform()
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                        .placeholder(R.drawable.default_poster)
-                        .error(R.drawable.default_poster)
-                        .centerCrop())
+        GlideHelper.getGlideRequest(holder.itemView.getContext(), model.poster_path)
                 .into(holder.mPosterView);
 
         ViewCompat.setTransitionName(holder.mPosterView, "top_rated_" + model.id);

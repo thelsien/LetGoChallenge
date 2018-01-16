@@ -109,8 +109,8 @@ public class MovieListActivity extends AppCompatActivity implements MovieListCon
     @Override
     public void onMovieClicked(MovieRowModel movie, View sharedElement) {
         Intent detailIntent = new Intent(this, MovieDetailActivity.class);
-        detailIntent.putExtra("movieId", movie.id);
-        detailIntent.putExtra("poster_path", movie.poster_path);
+        detailIntent.putExtra("movie", movie);
+//        detailIntent.putExtra("poster_path", movie.poster_path);
         detailIntent.putExtra("poster_transition_name", ViewCompat.getTransitionName(sharedElement));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

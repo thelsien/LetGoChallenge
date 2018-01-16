@@ -7,12 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.thelsien.challenge.letgochallenge.R;
-import com.thelsien.challenge.letgochallenge.api.MovieDbApiService;
 import com.thelsien.challenge.letgochallenge.models.MovieDetailModel;
 import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
+import com.thelsien.challenge.letgochallenge.util.GlideHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,11 +55,7 @@ class SimilarMoviesAdapter extends RecyclerView.Adapter<SimilarMoviesAdapter.Vie
     public void onBindViewHolder(ViewHolder holder, int position) {
         MovieRowModel model = mMovies.get(position);
 
-        Glide.with(holder.posterView)
-                .load(MovieDbApiService.IMAGE_BASE_URL + model.poster_path)
-                .apply(new RequestOptions()
-                        .error(R.drawable.default_poster)
-                        .placeholder(R.drawable.default_poster))
+        GlideHelper.getGlideRequest(holder.itemView.getContext(), model.poster_path)
                 .into(holder.posterView);
 
         ViewCompat.setTransitionName(holder.posterView, "similar_list_" + model.id);
