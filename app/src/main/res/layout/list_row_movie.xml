@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="320dp">
 
     <ImageView
         android:id="@+id/iv_movie_poster"
@@ -11,36 +11,61 @@
         android:layout_height="320dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/movie_poster_description"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:id="@+id/tv_movie_ating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/black_50p_opacity_background"
-        android:drawableLeft="@drawable/ic_star_rate_white_18dp"
-        android:drawableStart="@drawable/ic_star_rate_white_18dp"
-        android:padding="@dimen/padding_8dp"
-        android:text="@string/default_rating"
-        android:textColor="@android:color/white"
-        app:layout_constraintEnd_toEndOf="@+id/iv_movie_poster"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_movie_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black_50p_opacity_background"
+            android:ellipsize="marquee"
+            android:paddingBottom="@dimen/padding_4dp"
+            android:paddingEnd="@dimen/padding_8dp"
+            android:paddingLeft="@dimen/padding_8dp"
+            android:paddingRight="@dimen/padding_8dp"
+            android:paddingStart="@dimen/padding_8dp"
+            android:paddingTop="@dimen/padding_8dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/iv_movie_poster"
+            app:layout_constraintStart_toStartOf="@+id/iv_movie_poster"
+            tools:text="Epic Movie title" />
 
-    <TextView
-        android:id="@+id/tv_movie_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/black_50p_opacity_background"
-        android:ellipsize="marquee"
-        android:gravity="center_horizontal"
-        android:padding="@dimen/padding_8dp"
-        android:singleLine="true"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/iv_movie_poster"
-        app:layout_constraintStart_toStartOf="@+id/iv_movie_poster"
-        tools:text="Epic Movie title" />
+        <TextView
+            android:id="@+id/tv_movie_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black_50p_opacity_background"
+            android:drawableLeft="@drawable/ic_star_rate_white_18dp"
+            android:drawableStart="@drawable/ic_star_rate_white_18dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/padding_8dp"
+            android:paddingEnd="@dimen/padding_8dp"
+            android:paddingLeft="@dimen/padding_8dp"
+            android:paddingRight="@dimen/padding_8dp"
+            android:paddingStart="@dimen/padding_8dp"
+            android:paddingTop="@dimen/padding_4dp"
+            android:text="@string/default_rating"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_12sp"
+            app:layout_constraintEnd_toEndOf="@+id/iv_movie_poster"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

@@ -79,7 +79,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
             super(itemView);
 
             mTitleView = itemView.findViewById(R.id.tv_movie_title);
-            mRateView = itemView.findViewById(R.id.tv_movie_ating);
+            mRateView = itemView.findViewById(R.id.tv_movie_rating);
             mPosterView = itemView.findViewById(R.id.iv_movie_poster);
         }
     }

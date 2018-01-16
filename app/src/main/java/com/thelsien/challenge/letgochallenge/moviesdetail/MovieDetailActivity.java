@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -132,16 +131,6 @@ public class MovieDetailActivity extends AppCompatActivity implements MovieDetai
         mDetailsLoadingBar = findViewById(R.id.pb_details_loading);
         mDetailsErrorView = findViewById(R.id.tv_details_error);
         mDetailsWrapper = findViewById(R.id.ll_details_wrapper);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                supportFinishAfterTransition();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
