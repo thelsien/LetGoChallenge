@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.thelsien.challenge.letgochallenge.BaseActivty;
 import com.thelsien.challenge.letgochallenge.R;
 import com.thelsien.challenge.letgochallenge.models.MovieDetailModel;
 import com.thelsien.challenge.letgochallenge.models.MovieListModel;
@@ -28,7 +28,7 @@ import com.thelsien.challenge.letgochallenge.util.GlideHelper;
 
 import java.util.Locale;
 
-public class MovieDetailActivity extends AppCompatActivity implements MovieDetailContract.View, SimilarMoviesAdapter.OnSimilarMovieClickedListener {
+public class MovieDetailActivity extends BaseActivty implements MovieDetailContract.View, SimilarMoviesAdapter.OnSimilarMovieClickedListener {
     private static final int SIMILAR_MOVIES_VISIBLE_TRESHOLD = 2;
     private static final String TAG = MovieDetailActivity.class.getSimpleName();
 

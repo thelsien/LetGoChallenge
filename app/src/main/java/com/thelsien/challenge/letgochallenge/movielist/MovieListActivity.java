@@ -6,19 +6,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.thelsien.challenge.letgochallenge.BaseActivty;
 import com.thelsien.challenge.letgochallenge.R;
 import com.thelsien.challenge.letgochallenge.models.MovieListModel;
 import com.thelsien.challenge.letgochallenge.models.MovieRowModel;
 import com.thelsien.challenge.letgochallenge.moviesdetail.MovieDetailActivity;
 
-public class MovieListActivity extends AppCompatActivity implements MovieListContract.View, MovieListAdapter.OnMovieClickListener {
+public class MovieListActivity extends BaseActivty implements MovieListContract.View, MovieListAdapter.OnMovieClickListener {
 
     private final String MOVIE_LIST_FRAGMENT_TAG = "movie_list_fragment";
     private final static int VISIBLE_THRESHOLD = 4;
